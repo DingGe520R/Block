@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body onkeydown="Rotate_Block(event)">
+    <h1>俄罗斯方块</h1>
+    <img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><br>
+    <img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><br>
+    <img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><br>
+    <img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><br>
+    <img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><br>
+    <img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><br>
+    <img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><br>
+    <img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><br>
+    <img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><br>
+    <img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><br>
+    <img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><img src='0.png'><br>
+    <script language="Javascript" src="index.js"></script>
+    <script language="Javascript">
+        var width = 6;
+        var z
+        var d1
+        var d2
+        var start_x
+        var start_y = 0
+        var left_x = 0
+
+        start()
+
+        //设置定时器
+        function start() {
+            z = Math.round(Math.random() * 18);  //随机数
+            start_x = Math.round((width - y[z][0]) / 2); //x
+            drow_block()
+            d1 = setInterval(function () {
+                Clear_Block();
+                down_block()
+                drow_block()
+            }, 500);
+        }
+        //下落
+        function down_block() {
+            if (start_y + y[z][1] < 11) {
+                start_y++;
+            }
+            else {
+                clearInterval(d1);
+                start_y = 0;
+                start();
+            }
+        }
+        //清除有颜色的块的方法
+        function Clear_Block() {
+            for (j = 0; j < y[z][1]; j++)
+                for (i = 0; i < y[z][0]; i++)
+                    if (x[z][j][i] > 0)
+                        document.getElementsByTagName("img")[(j + start_y) * width + i + start_x].src = '0.png';
+        }
+        //左右键控制方块
+        function Rotate_Block(e) {
+            var r = right[z];
+            var l = left[z];
+            switch (e.keyCode) {
+                case 40://下(向右旋转)
+                    if ((6 - start_x) >= y[r][0] && start_y + y[z][1] < 11) {
+                        Clear_Block();
+                        z = right[z];
+                        break;
+                    }
+                    else
+                        break;
+
+                case 38://上(向左旋转)
+                    if ((6 - start_x) >= y[l][0] && start_y + y[z][1] < 11) {
+                        Clear_Block();
+                        z = left[z];
+                        break;
+                    }
+                    else
+                        break;
+
+                case 37: //左(向左移动)
+                    if (start_x > 0) {
+                        Clear_Block();
+                        start_x--;
+                        break;
+                    }
+                    else
+                        break;
+
+                case 39: //右(向右移动)
+                    if ((6 - y[z][0] - start_x) > 0) {
+                        Clear_Block();
+                        start_x++;
+                        break;
+                    }
+                    else
+                        break;
+            }
+            drow_block()
+        }
+
+        //显示方块
+        function drow_block() {
+            for (j = 0; j < y[z][1]; j++) {
+                for (i = 0; i < y[z][0]; i++) {
+                    if (x[z][j][i] > 0) document.getElementsByTagName("img")[(j + start_y) * width + i + start_x].src = String(x[z][j][i]) + '.png';
+                    else document.getElementsByTagName("img")[(j + start_y) * width + i + start_x].src = '0.png'
+                }
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>
